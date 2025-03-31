@@ -1,5 +1,6 @@
 <?php
 
+$container = require __DIR__ . '/container.php';
 $db = require __DIR__ . '/database.php';
 
 return [
@@ -8,6 +9,7 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\controllers',
     'components' => [
+        'container' => $container,
         'db' => $db,
         'snowflake' => [
             'class' => 'xutl\snowflake\Snowflake',
@@ -25,10 +27,25 @@ return [
                 ],
             ],
         ],
+        'request' => [
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
+        ],
+        'response' => [
+            'format' => \yii\web\Response::FORMAT_JSON,
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'enableStrictParsing' => true,
             'showScriptName' => false,
+            'suffix' => '/',
+            'normalizer' => [
+                'class' => 'yii\web\UrlNormalizer',
+                'action' => \yii\web\UrlNormalizer::ACTION_REDIRECT_PERMANENT,
+            ],
+            'rules' => [
+                '<controller>/<action>/<id:\d+>' => '<controller>/<action>',
+            ],
         ],
     ],
 ];

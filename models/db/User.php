@@ -3,6 +3,7 @@
 namespace app\models\db;
 
 use xutl\snowflake\SnowflakeBehavior;
+use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
@@ -10,7 +11,8 @@ use yii\web\IdentityInterface;
 
 /**
  * @property int $id
- * @property string|null $access_token
+ * @property string $login
+ * @property string $password_hash
  * @property string|null $auth_key
  * @property string $created_at
  * @property string|null $updated_at
@@ -50,8 +52,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['access_token', 'auth_key'], 'string'],
-            [['access_token', 'auth_key'], 'default', 'value' => null],
+            [['login', 'password_hash'], 'required'],
+            [['login', 'password_hash', 'auth_key'], 'string'],
+            [
+                'login',
+                'unique',
+                'when' => fn(self $model) => $model->isAttributeChanged('login'),
+            ],
+            [['auth_key'], 'default', 'value' => null],
             [['created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -66,10 +74,11 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * {@inheritdoc}
+     * @throws NotSupportedException
      */
     public static function findIdentityByAccessToken($token, $type = null): ?IdentityInterface
     {
-        return static::findOne(['access_token' => $token]);
+        throw new NotSupportedException(__METHOD__ . ' is not supported.');
     }
 
     /**

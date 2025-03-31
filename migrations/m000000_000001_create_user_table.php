@@ -14,12 +14,20 @@ class m000000_000001_create_user_table extends Migration
     {
         $this->createTable($this->table, [
             $this->primaryKey => $this->bigInteger()->unsigned()->notNull(),
-            'access_token' => $this->string()->null(),
+            'login' => $this->string()->notNull(),
+            'password_hash' => $this->string()->notNull(),
             'auth_key' => $this->string()->null(),
             'created_at' => $this->timestamp()->notNull(),
             'updated_at' => $this->timestamp()->null(),
             'PRIMARY KEY ([[' . $this->primaryKey . ']])',
         ]);
+
+        $this->createIndex(
+            'idx-user-login',
+            $this->table,
+            'login',
+            true
+        );
     }
 
     /**
