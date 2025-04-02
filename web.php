@@ -31,6 +31,7 @@ return [
             ],
         ],
         'request' => [
+            'cookieValidationKey' => $_ENV['COOKIE_VALIDATION_KEY'],
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
