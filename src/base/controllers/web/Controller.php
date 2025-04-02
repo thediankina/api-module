@@ -11,6 +11,11 @@ class Controller extends \yii\web\Controller
     /**
      * {@inheritdoc}
      */
+    public $enableCsrfValidation = false;
+
+    /**
+     * {@inheritdoc}
+     */
     public function runAction($id, $params = [])
     {
         try {
