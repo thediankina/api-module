@@ -8,13 +8,16 @@ return [
     'basePath' => __DIR__,
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
+    'container' => $container,
     'components' => [
-        'container' => $container,
         'db' => $db,
         'snowflake' => [
             'class' => 'xutl\snowflake\Snowflake',
             'workerId' => 0,
             'dataCenterId' => 0,
+        ],
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
         ],
         'log' => [
             'targets' => [
