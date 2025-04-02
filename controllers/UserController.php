@@ -41,12 +41,12 @@ class UserController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login'],
+                        'actions' => ['login', 'create'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['create', 'update', 'delete', 'logout'],
+                        'actions' => ['update', 'delete', 'logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
