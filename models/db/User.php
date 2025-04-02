@@ -67,6 +67,19 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
+    public function fields(): array
+    {
+        return [
+            'id' => 'id',
+            'login' => 'login',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public static function findIdentity($id): ?IdentityInterface
     {
         return static::findOne(['id' => $id]);

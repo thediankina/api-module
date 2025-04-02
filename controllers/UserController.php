@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\src\actions\user\Create;
 use app\src\actions\user\Delete;
+use app\src\actions\user\Index;
 use app\src\actions\user\Login;
 use app\src\actions\user\Logout;
 use app\src\actions\user\Update;
@@ -41,7 +42,7 @@ class UserController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'create'],
+                        'actions' => ['login', 'index', 'create'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -56,6 +57,7 @@ class UserController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'login' => ['post'],
+                    'index' => ['get'],
                     'create' => ['post'],
                     'update' => ['post'],
                     'delete' => ['get'],
@@ -74,6 +76,9 @@ class UserController extends Controller
             'login' => [
                 'class' => Login::class,
                 'userRepository' => $this->userRepository,
+            ],
+            'index' => [
+                'class' => Index::class,
             ],
             'create' => [
                 'class' => Create::class,
