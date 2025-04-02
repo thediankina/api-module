@@ -17,6 +17,7 @@ return [
             'dataCenterId' => 0,
         ],
         'user' => [
+            'loginUrl' => null,
             'identityClass' => 'app\models\db\User',
         ],
         'cache' => [
