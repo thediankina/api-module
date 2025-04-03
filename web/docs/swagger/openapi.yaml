@@ -1,0 +1,199 @@
+openapi: 3.0.0
+info:
+  title: 'API module'
+  version: '0.1'
+paths:
+  /user/create:
+    post:
+      tags:
+        - user
+      summary: 'Создать пользователя'
+      operationId: 522881ba42bde8efc58fc0b4e897ceb9
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserForm'
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '422':
+          description: 'Ошибка валидации данных'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+  /user/delete:
+    get:
+      tags:
+        - user
+      summary: 'Удалить (текущего) пользователя'
+      operationId: 5881ad0888b1f5892585561a5b438d17
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /user/index:
+    get:
+      tags:
+        - user
+      summary: 'Получить список пользователей'
+      operationId: 4f13bac441fd4e681d60ac2de59b9d27
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataResponse'
+  /user/login:
+    post:
+      tags:
+        - user
+      summary: 'Войти как пользователь'
+      operationId: 4a09ae05c531be2ec6c1156c7145556b
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginForm'
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: 'Пользователь не найден'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+        '422':
+          description: 'Ошибка валидации данных'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+  /user/logout:
+    get:
+      tags:
+        - user
+      summary: 'Выйти из под (текущего) пользователя'
+      operationId: e1448871122f68973fba15d0f3a9ea0d
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+  /user/update:
+    post:
+      tags:
+        - user
+      summary: 'Изменить (текущего) пользователя'
+      operationId: 6e43aa97903e3cbe20e439dd16abd044
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserForm'
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '422':
+          description: 'Ошибка валидации данных'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsResponse'
+components:
+  schemas:
+    LoginForm:
+      required:
+        - login
+        - password
+      properties:
+        login:
+          description: Логин
+          type: string
+        password:
+          description: Пароль
+          type: string
+      type: object
+    UserForm:
+      required:
+        - login
+        - password
+      properties:
+        login:
+          description: Логин
+          type: string
+        password:
+          description: Пароль
+          type: string
+      type: object
+    DataResponse:
+      required:
+        - success
+        - data
+      properties:
+        success:
+          description: 'Успешно ли выполнен запрос'
+          type: boolean
+          default: true
+        data:
+          description: 'Список данных'
+          type: array
+          items:
+            type: object
+      type: object
+    ErrorsResponse:
+      required:
+        - success
+        - errors
+      properties:
+        success:
+          description: 'Успешно ли выполнен запрос'
+          type: boolean
+          default: false
+        errors:
+          description: 'Список ошибок'
+          type: array
+          items:
+            oneOf:
+              -
+                type: string
+              -
+                type: array
+                items:
+                  type: string
+      type: object
+    Response:
+      required:
+        - success
+      properties:
+        success:
+          description: 'Успешно ли выполнен запрос'
+          type: boolean
+      type: object
+tags:
+  -
+    name: user
+    description: 'Операции над пользователями'
