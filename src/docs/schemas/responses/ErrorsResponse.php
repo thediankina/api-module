@@ -21,10 +21,7 @@ class ErrorsResponse
         property: "errors",
         description: "Список ошибок",
         type: "array",
-        items: new OA\Items(oneOf: [
-            new OA\Schema(type: "string"),
-            new OA\Schema(type: "array", items: new OA\Items(type: "string"))
-        ])
+        items: new OA\Items(type: "string")
     )]
     public $errors;
 }

@@ -69,7 +69,7 @@ class Login extends Action
         }
 
         if (!Yii::$app->security->validatePassword($form->password, $user->password_hash)) {
-            throw new UserException(['password' => ['Invalid password.']]);
+            throw new UserException(['Invalid password.']);
         }
 
         if (!Yii::$app->user->login($user)) {

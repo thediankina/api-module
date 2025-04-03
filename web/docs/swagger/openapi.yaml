@@ -177,13 +177,7 @@ components:
           description: 'Список ошибок'
           type: array
           items:
-            oneOf:
-              -
-                type: string
-              -
-                type: array
-                items:
-                  type: string
+            type: string
       type: object
     Response:
       required:
