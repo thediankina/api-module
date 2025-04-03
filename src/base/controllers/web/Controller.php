@@ -2,9 +2,10 @@
 
 namespace app\src\base\controllers\web;
 
+use app\src\base\exceptions\UserException;
 use Throwable;
 use Yii;
-use yii\base\UserException;
+use yii\web\HttpException;
 
 class Controller extends \yii\web\Controller
 {
@@ -21,6 +22,13 @@ class Controller extends \yii\web\Controller
         try {
             return parent::runAction($id, $params);
         } catch (UserException $e) {
+            Yii::$app->response->setStatusCode(422);
+
+            return [
+                'success' => false,
+                'errors' => $e->errors,
+            ];
+        } catch (HttpException $e) {
             Yii::$app->response->setStatusCodeByException($e);
 
             return [
@@ -30,7 +38,7 @@ class Controller extends \yii\web\Controller
                 ],
             ];
         } catch (Throwable $e) {
-            Yii::$app->response->setStatusCodeByException($e);
+            Yii::$app->response->setStatusCode(500);
             Yii::error($e->getMessage() . "\n" . $e->getTraceAsString());
 
             return [

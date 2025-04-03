@@ -4,13 +4,11 @@ namespace app\src\base\exceptions;
 
 class UserException extends \yii\base\UserException
 {
-    /**
-     * @var array<string>
-     */
     public array $errors;
 
     /**
-     * @param array<string> $errors
+     * {@inheritdoc}
+     * @param array $errors
      */
     public function __construct(array $errors)
     {
