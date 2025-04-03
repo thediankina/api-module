@@ -19,9 +19,11 @@ class DataResponse
 
     #[OA\Property(
         property: "data",
-        description: "Список данных",
-        type: "array",
-        items: new OA\Items(type: "object")
+        description: "Данные",
+        oneOf: [
+            new OA\Schema(type: "object"),
+            new OA\Schema(type: "array", items: new OA\Items(type: "object"))
+        ]
     )]
     public $data;
 }

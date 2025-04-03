@@ -25,7 +25,7 @@ use yii\base\Exception;
         new OA\Response(
             response: 200,
             description: "Успех",
-            content: new OA\JsonContent(ref: "#/components/schemas/Response")
+            content: new OA\JsonContent(ref: "#/components/schemas/DataResponse")
         ),
         new OA\Response(
             response: 422,
@@ -56,10 +56,11 @@ class Update extends Action
         }
 
         $user = Yii::$app->user->identity;
-        $this->userService->update($user, $form);
+        $new = $this->userService->update($user, $form);
 
         return [
             'success' => true,
+            'data' => $new,
         ];
     }
 }

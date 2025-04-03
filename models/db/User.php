@@ -3,10 +3,12 @@
 namespace app\models\db;
 
 use xutl\snowflake\SnowflakeBehavior;
+use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\db\Query;
 use yii\web\IdentityInterface;
 
 /**
@@ -73,7 +75,14 @@ class User extends ActiveRecord implements IdentityInterface
             'id' => 'id',
             'login' => 'login',
             'created_at' => 'created_at',
-            'updated_at' => 'updated_at',
+            'updated_at' => function (self $model) {
+                if (is_object($model->updated_at)) {
+                    $datetime = (new Query())->select($model->updated_at)->scalar();
+                    return Yii::$app->formatter->asDate($datetime, 'php:Y-m-d H:i:s');
+                }
+
+                return $model->updated_at;
+            },
         ];
     }
 
