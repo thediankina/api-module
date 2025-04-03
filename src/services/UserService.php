@@ -4,6 +4,7 @@ namespace app\src\services;
 
 use app\models\db\User;
 use app\models\forms\UserForm;
+use app\src\base\exceptions\UserException;
 use app\src\interfaces\services\UserServiceInterface;
 use Throwable;
 use Yii;
@@ -20,10 +21,13 @@ class UserService implements UserServiceInterface
         $user->setAttributes($form->attributes, false);
 
         $user->password_hash = Yii::$app->security->generatePasswordHash($form->password);
-        $user->auth_key = Yii::$app->security->generateRandomString();
+        $user->access_token = Yii::$app->security->generateRandomString();
 
         if (!$user->save()) {
-            throw new Exception("The attempt to create user '$user->login' failed.");
+            throw new Exception(
+                message: 'The attempt to create user failed.',
+                previous: new UserException($user->getErrorSummary(true))
+            );
         }
 
         return $user;
@@ -37,10 +41,13 @@ class UserService implements UserServiceInterface
         $user->setAttributes($form->attributes, false);
 
         $user->password_hash = Yii::$app->security->generatePasswordHash($form->password);
-        $user->auth_key = Yii::$app->security->generateRandomString();
+        $user->access_token = Yii::$app->security->generateRandomString();
 
         if (!$user->save()) {
-            throw new Exception("The attempt to update user '$user->login' failed.");
+            throw new Exception(
+                message: 'The attempt to update user failed.',
+                previous: new UserException($user->getErrorSummary(true))
+            );
         }
 
         return $user;
@@ -53,8 +60,11 @@ class UserService implements UserServiceInterface
     {
         try {
             return (bool)$user->delete();
-        } catch (Throwable) {
-            throw new Exception("The attempt to delete user '$user->login' failed.");
+        } catch (Throwable $e) {
+            throw new Exception(
+                message: 'The attempt to delete user failed.',
+                previous: $e
+            );
         }
     }
 }

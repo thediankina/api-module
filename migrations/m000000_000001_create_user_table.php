@@ -16,7 +16,7 @@ class m000000_000001_create_user_table extends Migration
             $this->primaryKey => $this->bigInteger()->unsigned()->notNull(),
             'login' => $this->string()->notNull(),
             'password_hash' => $this->string()->notNull(),
-            'auth_key' => $this->string()->null(),
+            'access_token' => $this->string()->notNull(),
             'created_at' => $this->timestamp()->notNull(),
             'updated_at' => $this->timestamp()->null(),
             'PRIMARY KEY ([[' . $this->primaryKey . ']])',

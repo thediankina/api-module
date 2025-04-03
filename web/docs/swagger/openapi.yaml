@@ -41,6 +41,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+      security:
+        -
+          bearer: []
   /user/index:
     get:
       tags:
@@ -85,19 +88,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorsResponse'
-  /user/logout:
-    get:
-      tags:
-        - user
-      summary: 'Выйти из под (текущего) пользователя'
-      operationId: e1448871122f68973fba15d0f3a9ea0d
-      responses:
-        '200':
-          description: Успех
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
   /user/update:
     post:
       tags:
@@ -123,6 +113,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorsResponse'
+      security:
+        -
+          bearer: []
 components:
   schemas:
     LoginForm:
@@ -191,6 +184,12 @@ components:
           description: 'Успешно ли выполнен запрос'
           type: boolean
       type: object
+  securitySchemes:
+    bearer:
+      type: http
+      name: bearer
+      in: header
+      scheme: bearer
 tags:
   -
     name: user

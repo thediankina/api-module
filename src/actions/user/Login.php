@@ -26,7 +26,7 @@ use yii\web\NotFoundHttpException;
         new OA\Response(
             response: 200,
             description: "Успех",
-            content: new OA\JsonContent(ref: "#/components/schemas/Response")
+            content: new OA\JsonContent(ref: "#/components/schemas/DataResponse")
         ),
         new OA\Response(
             response: 404,
@@ -78,6 +78,9 @@ class Login extends Action
 
         return [
             'success' => true,
+            'data' => [
+                'access_token' => $user->access_token,
+            ],
         ];
     }
 }

@@ -11,6 +11,7 @@ use yii\base\Exception;
 #[OA\Get(
     path: "/user/delete",
     summary: "Удалить (текущего) пользователя",
+    security: [["bearer" => []]],
     tags: ["user"],
     responses: [
         new OA\Response(
@@ -34,11 +35,6 @@ class Delete extends Action
     public function run(): array
     {
         $user = Yii::$app->user->identity;
-
-        if (!Yii::$app->user->logout()) {
-            throw new Exception('The attempt to logout failed.');
-        }
-
         $this->userService->delete($user);
 
         return [

@@ -4,7 +4,6 @@ namespace app\models\db;
 
 use xutl\snowflake\SnowflakeBehavior;
 use Yii;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
@@ -15,7 +14,7 @@ use yii\web\IdentityInterface;
  * @property int $id
  * @property string $login
  * @property string $password_hash
- * @property string|null $auth_key
+ * @property string|null $access_token
  * @property string $created_at
  * @property string|null $updated_at
  */
@@ -54,15 +53,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['login', 'password_hash'], 'required'],
-            [['login', 'password_hash', 'auth_key'], 'string'],
+            [['login', 'password_hash', 'access_token'], 'required'],
+            [['login', 'password_hash', 'access_token'], 'string'],
+            [['created_at', 'updated_at'], 'safe'],
             [
                 'login',
                 'unique',
                 'when' => fn(self $model) => $model->isAttributeChanged('login'),
             ],
-            [['auth_key'], 'default', 'value' => null],
-            [['created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -96,11 +94,10 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * {@inheritdoc}
-     * @throws NotSupportedException
      */
     public static function findIdentityByAccessToken($token, $type = null): ?IdentityInterface
     {
-        throw new NotSupportedException(__METHOD__ . ' is not supported.');
+        return static::findOne(['access_token' => $token]);
     }
 
     /**
@@ -117,15 +114,14 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey(): ?string
     {
-        return $this->auth_key;
+        return null;
     }
 
     /**
      * {@inheritdoc}
-     * @return bool
      */
-    public function validateAuthKey($authKey): bool
+    public function validateAuthKey($authKey): ?bool
     {
-        return $this->getAuthKey() === $authKey;
+        return null;
     }
 }

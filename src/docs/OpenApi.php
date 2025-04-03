@@ -8,6 +8,13 @@ use OpenApi\Attributes as OA;
     version: "0.1",
     title: "API module"
 )]
+#[OA\SecurityScheme(
+    securityScheme: "bearer",
+    type: "http",
+    name: "bearer",
+    in: "header",
+    scheme: "bearer"
+)]
 #[OA\Tag(
     name: "user",
     description: "Операции над пользователями"

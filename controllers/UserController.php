@@ -6,12 +6,10 @@ use app\src\actions\user\Create;
 use app\src\actions\user\Delete;
 use app\src\actions\user\Index;
 use app\src\actions\user\Login;
-use app\src\actions\user\Logout;
 use app\src\actions\user\Update;
 use app\src\base\controllers\web\Controller;
 use app\src\interfaces\repositories\UserRepositoryInterface;
 use app\src\interfaces\services\UserServiceInterface;
-use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 class UserController extends Controller
@@ -37,34 +35,20 @@ class UserController extends Controller
      */
     public function behaviors(): array
     {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'actions' => ['login', 'index', 'create'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['update', 'delete', 'logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'login' => ['post'],
-                    'index' => ['get'],
-                    'create' => ['post'],
-                    'update' => ['post'],
-                    'delete' => ['get'],
-                    'logout' => ['get'],
-                ],
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator']['optional'] = ['login', 'index', 'create'];
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::class,
+            'actions' => [
+                'login' => ['post'],
+                'create' => ['post'],
+                'update' => ['post'],
+                'delete' => ['get'],
+                'index' => ['get'],
             ],
         ];
+
+        return $behaviors;
     }
 
     /**
@@ -91,9 +75,6 @@ class UserController extends Controller
             'delete' => [
                 'class' => Delete::class,
                 'userService' => $this->userService,
-            ],
-            'logout' => [
-                'class' => Logout::class,
             ],
         ];
     }

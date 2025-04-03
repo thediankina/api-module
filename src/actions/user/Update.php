@@ -13,6 +13,7 @@ use yii\base\Exception;
 #[OA\Post(
     path: "/user/update",
     summary: "Изменить (текущего) пользователя",
+    security: [["bearer" => []]],
     requestBody: new OA\RequestBody(
         required: true,
         content: new OA\MediaType(
@@ -60,7 +61,7 @@ class Update extends Action
 
         return [
             'success' => true,
-            'data' => $new,
+            'data' => array_merge($new->toArray(), ['access_token' => $new->access_token]),
         ];
     }
 }

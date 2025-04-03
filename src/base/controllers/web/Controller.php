@@ -5,6 +5,7 @@ namespace app\src\base\controllers\web;
 use app\src\base\exceptions\UserException;
 use Throwable;
 use Yii;
+use yii\filters\auth\HttpBearerAuth;
 use yii\web\HttpException;
 
 class Controller extends \yii\web\Controller
@@ -13,6 +14,18 @@ class Controller extends \yii\web\Controller
      * {@inheritdoc}
      */
     public $enableCsrfValidation = false;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors(): array
+    {
+        return [
+            'authenticator' => [
+                'class' => HttpBearerAuth::class,
+            ],
+        ];
+    }
 
     /**
      * {@inheritdoc}
