@@ -43,8 +43,7 @@ class UserController extends Controller
                 'login' => ['post'],
                 'create' => ['post'],
                 'update' => ['post'],
-                'delete' => ['get'],
-                'index' => ['get'],
+                '*' => ['get'],
             ],
         ];
 
