@@ -72,10 +72,6 @@ class Login extends Action
             throw new UserException(['Invalid password.']);
         }
 
-        if (!Yii::$app->user->login($user)) {
-            throw new Exception('The attempt to login failed.');
-        }
-
         return [
             'success' => true,
             'data' => [
