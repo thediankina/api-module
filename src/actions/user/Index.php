@@ -2,10 +2,11 @@
 
 namespace app\src\actions\user;
 
-use app\models\db\User;
+use app\models\filters\UserFilter;
+use app\src\interfaces\repositories\UserRepositoryInterface;
 use OpenApi\Attributes as OA;
+use Yii;
 use yii\base\Action;
-use yii\data\ActiveDataProvider;
 
 #[OA\Get(
     path: "/user/index",
@@ -21,6 +22,8 @@ use yii\data\ActiveDataProvider;
 )]
 class Index extends Action
 {
+    public UserRepositoryInterface $userRepository;
+
     /**
      * @return array{
      *     success: bool,
@@ -29,12 +32,9 @@ class Index extends Action
      */
     public function run(): array
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => User::find(),
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+        $filter = new UserFilter();
+        $filter->load(Yii::$app->request->get(), '');
+        $dataProvider = $this->userRepository->getList($filter);
 
         return [
             'success' => true,

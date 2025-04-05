@@ -62,6 +62,7 @@ class UserController extends Controller
             ],
             'index' => [
                 'class' => Index::class,
+                'userRepository' => $this->userRepository,
             ],
             'create' => [
                 'class' => Create::class,
