@@ -1,14 +1,15 @@
 <?php
 
-namespace app\src\base\controllers\web;
+namespace app\src\base\controllers;
 
 use app\src\base\exceptions\UserException;
 use Throwable;
 use Yii;
 use yii\filters\auth\HttpBearerAuth;
+use yii\web\Controller;
 use yii\web\HttpException;
 
-class Controller extends \yii\web\Controller
+class WebController extends Controller
 {
     /**
      * {@inheritdoc}

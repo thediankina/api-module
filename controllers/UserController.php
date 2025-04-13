@@ -7,12 +7,12 @@ use app\src\actions\user\Delete;
 use app\src\actions\user\Index;
 use app\src\actions\user\Login;
 use app\src\actions\user\Update;
-use app\src\base\controllers\web\Controller;
+use app\src\base\controllers\WebController;
 use app\src\interfaces\repositories\UserRepositoryInterface;
 use app\src\interfaces\services\UserServiceInterface;
 use yii\filters\VerbFilter;
 
-class UserController extends Controller
+class UserController extends WebController
 {
     /**
      * {@inheritdoc}
@@ -36,7 +36,13 @@ class UserController extends Controller
     public function behaviors(): array
     {
         $behaviors = parent::behaviors();
-        $behaviors['authenticator']['optional'] = ['login', 'index', 'create'];
+
+        $behaviors['authenticator']['optional'] = [
+            'login',
+            'index',
+            'create',
+        ];
+
         $behaviors['verbs'] = [
             'class' => VerbFilter::class,
             'actions' => [
