@@ -1,28 +1,28 @@
-# API модуль управления пользователями
+# API user management module
 
-Данный модуль представляет собой пример API по управлению пользователями. Одна часть API содержит публичные методы: 
-получение списка пользователей, регистрация и авторизация пользователя. Другая часть доступна только с помощью токена доступа, который 
-возвращается в ответе метода авторизации по логину и паролю и передается в составе заголовков запроса.
+This module is an example of a user management API. One part of the API contains public methods:
+getting a list of users, creating and authorizing a user. The other part is only available using an access token, 
+which is received from the response of the login and password authorization method and transmitted as part of the request headers.
 
-## База данных
+## Database
 
-Таблица `user` имеет следующие атрибуты:
+The `user` table has the following attributes:
 
-| Поле          | Тип                      | Описание                |
-|---------------|--------------------------|-------------------------|
-| id            | bigint unsigned not null | ID                      |
-| login         | varchar(255) not null    | Логин                   |
-| password_hash | varchar(255) not null    | Хеш пароля              |
-| access_token  | varchar(255) not null    | Токен доступа           |
-| created_at    | timestamp(0) not null    | Дата и время создания   |
-| updated_at    | timestamp(0) null        | Дата и время обновления |
+| Поле          | Тип                      | Описание              |
+|---------------|--------------------------|-----------------------|
+| id            | bigint unsigned not null | ID                    |
+| login         | varchar(255) not null    | Login                 |
+| password_hash | varchar(255) not null    | Password hash         |
+| access_token  | varchar(255) not null    | Access token          |
+| created_at    | timestamp(0) not null    | Created at (datetime) |
+| updated_at    | timestamp(0) null        | Updated at (datetime) |
 
-## API
+## API methods
 
-- Получить список пользователей
-- Регистрация пользователя
-- Войти как пользователь
-- Изменить (текущего) пользователя
-- Удалить (текущего) пользователя
+- Get list of users
+- Create user
+- Log in as user
+- Change (current) user
+- Delete (current) user
 
-Более подробная API документация описана с помощью Swagger: [web/docs/swagger/openapi.yaml](web/docs/swagger/openapi.yaml)
+Read more via Swagger YAML: [web/docs/swagger/openapi.yaml](web/docs/swagger/openapi.yaml)
