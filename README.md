@@ -8,7 +8,7 @@ which is received from the response of the login and password authorization meth
 
 The `user` table has the following attributes:
 
-| Поле          | Тип                      | Описание              |
+| Field         | Type                     | Description           |
 |---------------|--------------------------|-----------------------|
 | id            | bigint unsigned not null | ID                    |
 | login         | varchar(255) not null    | Login                 |
