@@ -3,6 +3,7 @@
 namespace app\src\base\controllers;
 
 use app\src\base\exceptions\UserException;
+use app\src\base\helpers\LogHelper;
 use Throwable;
 use Yii;
 use yii\filters\auth\HttpBearerAuth;
@@ -53,7 +54,7 @@ class WebController extends Controller
             ];
         } catch (Throwable $e) {
             Yii::$app->response->setStatusCode(500);
-            Yii::error($e->getMessage() . "\n" . $e->getTraceAsString());
+            LogHelper::exception($e);
 
             return [
                 'success' => false,
